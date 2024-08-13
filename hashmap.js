@@ -5,7 +5,7 @@ if (index < 0 || index >= buckets.length) {
 */
 const HashMap = () => {
 	let mapSize = 16;
-	let entries = 0;
+	let entry = 0;
 	const hashMap = Array(mapSize);
 
 	//Linked list node with key, value, and nextNode properties
@@ -44,7 +44,7 @@ const HashMap = () => {
 			//set bucket to node with key value pair
 			hashMap[hashKey] = Node(key, value);
 			//increment entry counter
-			entries++;
+			entry++;
 			return;
 		}
 
@@ -65,7 +65,7 @@ const HashMap = () => {
 				//Add new node at tail
 				node.nextNode = Node(key, value);
 				//Increment entry counter
-				entries++;
+				entry++;
 				return;
 			}
 			//Traverse linked list
@@ -146,7 +146,7 @@ const HashMap = () => {
 				} else {
 					hashMap[hashKey] = node.nextNode;
 				}
-				entries--;
+				entry--;
 				return true;
 			}
 			// walk through list while storing previous node
@@ -203,7 +203,7 @@ const HashMap = () => {
 				let node = hashMap[i];
 
 				while (node) {
-					arr.push(node.values);
+					arr.push(node.value);
 					node = node.nextNode;
 				}
 			}
@@ -211,17 +211,35 @@ const HashMap = () => {
 		return arr;
 	};
 
+    const entries = () => {
+        const arr = [];
+		for (let i = 0; i < hashMap.length; i++) {
+            const pairArr = [];
+
+			if (hashMap[i]) {
+				let node = hashMap[i];
+
+				while (node) {
+					pairArr.push(node.key, node.value);
+                    arr.push(pairArr);
+					node = node.nextNode;
+				}
+			}
+		}
+		return arr;
+    }
 	return {
 		hash,
 		set,
 		get,
 		has,
 		remove,
-		entries,
+		entry,
 		length,
 		clear,
 		keys,
 		values,
+		entries,
 	};
 };
 
