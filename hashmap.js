@@ -156,6 +156,7 @@ const HashMap = () => {
 		return false;
 	};
 
+    //Returns number of total keys in hash map
 	const length = () => {
 		let length = 0;
 		for (let i = 0; i < hashMap.length; i++) {
@@ -171,6 +172,7 @@ const HashMap = () => {
 		return length;
 	};
 
+    //Clears hash map
 	const clear = () => {
 		for (let i = 0; i < hashMap.length; i++) {
 			hashMap[i] = null;
