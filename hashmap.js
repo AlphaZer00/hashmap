@@ -102,11 +102,24 @@ const HashMap = () => {
 
 	//If key is in hashmap, return true, false if not;
 	const has = (key) => {
-		if (key) {
-			return true;
-		} else {
-			return false;
-		}
+        //Exit if key does not exist
+		if (!key) return "Error: No key";
+
+        //Hash the key
+		const hashKey = hash(key);
+		//Find the bucket that contains hashed key
+		let bucket = hashMap[hashKey];
+		// Set head node to that bucket
+		let node = bucket;
+
+        //Loop through linked list and return true if key is found
+        while (node) {
+            if (node.key === key) {
+                return true;
+            }
+            node = node.nextNode;
+        }
+        return false;
 	};
 
 	return {
