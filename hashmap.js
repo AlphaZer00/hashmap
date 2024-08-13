@@ -171,6 +171,28 @@ const HashMap = () => {
 		return length;
 	};
 
+	const clear = () => {
+		for (let i = 0; i < hashMap.length; i++) {
+			hashMap[i] = null;
+		}
+	};
+
+    //Returns array of all keys
+	const keys = () => {
+		const arr = [];
+		for (let i = 0; i < hashMap.length; i++) {
+			if (hashMap[i]) {
+				let node = hashMap[i];
+
+				while (node) {
+					arr.push(node.key);
+					node = node.nextNode;
+				}
+			}
+		}
+		return arr;
+	};
+
 	return {
 		hash,
 		set,
@@ -179,6 +201,8 @@ const HashMap = () => {
 		remove,
 		entries,
 		length,
+		clear,
+        keys
 	};
 };
 
