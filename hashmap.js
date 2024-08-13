@@ -102,24 +102,58 @@ const HashMap = () => {
 
 	//If key is in hashmap, return true, false if not;
 	const has = (key) => {
-        //Exit if key does not exist
+		//Exit if key does not exist
 		if (!key) return "Error: No key";
 
-        //Hash the key
+		//Hash the key
 		const hashKey = hash(key);
 		//Find the bucket that contains hashed key
 		let bucket = hashMap[hashKey];
 		// Set head node to that bucket
 		let node = bucket;
 
-        //Loop through linked list and return true if key is found
-        while (node) {
-            if (node.key === key) {
-                return true;
-            }
-            node = node.nextNode;
-        }
-        return false;
+		//Loop through linked list and return true if key is found
+		while (node) {
+			if (node.key === key) {
+				return true;
+			}
+			node = node.nextNode;
+		}
+		return false;
+	};
+
+	// If key is in the hash map, removes the node and returns true. If no key in hash map, returns false
+	const remove = (key) => {
+		//Exit if key does not exist
+		if (!key) return "Error: No key";
+
+		//Hash the key
+		const hashKey = hash(key);
+		//Find the bucket that contains hashed key
+		let bucket = hashMap[hashKey];
+
+		if (!bucket) return false;
+		// Set head node to that bucket
+		let node = bucket;
+		let previousNode = null;
+
+		while (node) {
+			if (node.key === key) {
+                //If node is not head of list, remove it this way
+				if (previousNode) {
+					previousNode.nextNode = node.nextNode;
+                //If node is head, remove this way.
+				} else {
+					hashMap[hashKey] = node.nextNode;
+				}
+				entries--;
+				return true;
+			}
+            // walk through list while storing previous node
+			previousNode = node;
+			node = node.nextNode;
+		}
+		return false;
 	};
 
 	return {
@@ -127,6 +161,8 @@ const HashMap = () => {
 		set,
 		get,
 		has,
+		remove,
+        entries,
 	};
 };
 
