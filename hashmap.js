@@ -75,11 +75,29 @@ const HashMap = () => {
 
 	//Returns value of key, or null if key is not in hashmap
 	const get = (key) => {
-		if (key) {
-			return key.value;
-		} else if (!key) {
-			return null;
+		//Exit if key does not exist
+		if (!key) return "Error: No key";
+
+		//Hash the key
+		const hashKey = hash(key);
+		//Find the bucket that contains hashed key
+		let bucket = hashMap[hashKey];
+		// Set head node to that bucket
+		let node = bucket;
+
+		//While node is truthy
+		while (node) {
+			//Return value of node if keys match
+			if (node.key === key) {
+				return node.value;
+			}
+
+			//Traverse linked list
+			node = node.nextNode;
 		}
+
+		//If input key was not found in linked list, returns null;
+		return null;
 	};
 
 	//If key is in hashmap, return true, false if not;
