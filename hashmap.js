@@ -48,28 +48,28 @@ const HashMap = () => {
 			return;
 		}
 
-        //If bucket is NOT empty, we have a collision
+		//If bucket is NOT empty, we have a collision
 
-        //Set variable for current bucket
+		//Set variable for current bucket
 		let node = currentBucket;
 		//While node is truthy
 		while (node) {
-            //If existing nodes key is equal to input key
+			//If existing nodes key is equal to input key
 			if (node.key === key) {
-                //Override the existing value with input value
+				//Override the existing value with input value
 				node.value = value;
 				return;
 			}
-            //if we reach end of linked list
+			//if we reach end of linked list
 			if (!node.nextNode) {
-                //Add new node at tail
+				//Add new node at tail
 				node.nextNode = Node(key, value);
-                //Increment entry counter
+				//Increment entry counter
 				entries++;
 				return;
 			}
-            //Traverse linked list
-            node = node.nextNode;
+			//Traverse linked list
+			node = node.nextNode;
 		}
 	};
 
