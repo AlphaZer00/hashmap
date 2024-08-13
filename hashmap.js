@@ -139,21 +139,36 @@ const HashMap = () => {
 
 		while (node) {
 			if (node.key === key) {
-                //If node is not head of list, remove it this way
+				//If node is not head of list, remove it this way
 				if (previousNode) {
 					previousNode.nextNode = node.nextNode;
-                //If node is head, remove this way.
+					//If node is head, remove this way.
 				} else {
 					hashMap[hashKey] = node.nextNode;
 				}
 				entries--;
 				return true;
 			}
-            // walk through list while storing previous node
+			// walk through list while storing previous node
 			previousNode = node;
 			node = node.nextNode;
 		}
 		return false;
+	};
+
+	const length = () => {
+		let length = 0;
+		for (let i = 0; i < hashMap.length; i++) {
+			if (hashMap[i]) {
+				let node = hashMap[i];
+
+				while (node) {
+					length++;
+					node = node.nextNode;
+				}
+			}
+		}
+		return length;
 	};
 
 	return {
@@ -162,7 +177,8 @@ const HashMap = () => {
 		get,
 		has,
 		remove,
-        entries,
+		entries,
+		length,
 	};
 };
 
