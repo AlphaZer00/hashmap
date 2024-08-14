@@ -6,7 +6,8 @@ if (index < 0 || index >= buckets.length) {
 const HashMap = () => {
 	let mapSize = 16;
 	let entry = 0;
-	const hashMap = Array(mapSize);
+	let hashMap = Array(mapSize);
+    const loadFactor = .75;
 
 	//Linked list node with key, value, and nextNode properties
 	const Node = (key, value = null, nextNode = null) => {
@@ -18,12 +19,12 @@ const HashMap = () => {
 	};
 
 	//Hashes the key
-	const hash = (key) => {
+	const hash = (key, size = hashMap.length) => {
 		let hashCode = 0;
 		const primeNum = 31;
 
 		for (let i = 0; i < key.length; i++) {
-			hashCode = primeNum * hashCode + (key.charCodeAt(i) % mapSize);
+			hashCode = primeNum * hashCode + (key.charCodeAt(i) % size);
 		}
 
 		return hashCode;
@@ -33,6 +34,11 @@ const HashMap = () => {
 	const set = (key, value) => {
 		//Check for proper values
 		if (!key || !value) return "Key value is not valid";
+
+        //Handle load
+        if (entry/hashMap.length > loadFactor) {
+            handleLoad();
+        }
 
 		//hash the key
 		const hashKey = hash(key);
@@ -211,23 +217,53 @@ const HashMap = () => {
 		return arr;
 	};
 
-    const entries = () => {
-        const arr = [];
+	const entries = () => {
+		const arr = [];
 		for (let i = 0; i < hashMap.length; i++) {
-            const pairArr = [];
+			const pairArr = [];
 
 			if (hashMap[i]) {
 				let node = hashMap[i];
 
 				while (node) {
 					pairArr.push(node.key, node.value);
-                    arr.push(pairArr);
+					arr.push(pairArr);
 					node = node.nextNode;
 				}
 			}
 		}
 		return arr;
+	};
+
+    const handleLoad = () => {
+        const newSize = hashMap.length * 2;
+        let newMap = new Array(newSize).fill(null);
+
+        for (let i = 0; i < hashMap.length; i++) {
+            let node = hashMap[i];
+            let current = node;
+
+            while (current) {
+                let newNode = Node(current.key, current.value);
+                let newHashKey = hash(current.key, newSize);
+
+                if (newMap[newHashKey] === null) {
+                    newMap[newHashKey] = newNode;
+                } else {
+                    let pointer = newMap[newHashKey];
+                    let newPointer = pointer;
+                    while (newPointer.nextNode) {
+                        newPointer = newPointer.nextNode;
+                    }
+                    newPointer.nextNode = newNode;
+                }
+                current = current.nextNode;
+            }
+            
+        }
+        hashMap = newMap;
     }
+
 	return {
 		hash,
 		set,
