@@ -218,7 +218,7 @@ const HashMap = () => {
 	};
 
 	const entries = () => {
-		const arr = [];
+		let arr = [];
 		for (let i = 0; i < hashMap.length; i++) {
 			const pairArr = [];
 
@@ -227,9 +227,9 @@ const HashMap = () => {
 
 				while (node) {
 					pairArr.push(node.key, node.value);
-					arr.push(pairArr);
 					node = node.nextNode;
 				}
+                arr = arr.concat([pairArr]);
 			}
 		}
 		return arr;
