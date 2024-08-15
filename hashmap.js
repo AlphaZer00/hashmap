@@ -1,8 +1,3 @@
-/*
-if (index < 0 || index >= buckets.length) {
-    throw new Error("Trying to access index out of bound");
-  }
-*/
 const HashMap = () => {
 	let mapSize = 16;
 	let entry = 0;
